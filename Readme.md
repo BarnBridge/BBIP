@@ -8,7 +8,7 @@ The format is heavily influenced by the [Ethereum Improvement Proposal](https://
 
 ## Contributing
 
-Clone the repository, use the available template and add your BBIP to it. Lastly submit a pull request to [BarnBridge's Improvement Proposal repository](https://github.com/BarnBridge/BBIP)
+Clone the repository, use the [available template](./bbip-template.md) and add your BBIP to it. Lastly submit a pull request to [BarnBridge's Improvement Proposal repository](https://github.com/BarnBridge/BBIP)
 Fork and use the available template to add your proposal, create pull request.
 
 ## BBIP status terms
