@@ -16,10 +16,6 @@ The synopsis of the improvement proposal. It needs to be short, clear and captur
 
 A short (~200 word) description of the issue addressed.
 
-## Motivation
-
-Explain why the feature, change, update is important. It should explain the limitations of the current situation and how the BBIP will bring an improvement.
-
 ## Specification
 
 The technical specification should be detailed and should describe the syntax, semantics and interface of any feature. The specs should be detailed enough to allow technical discussions and ideation on top of this. 
