@@ -26,22 +26,11 @@ In order to choose how the architecture should behave and what features this DAO
 
 The following DAOs (or governance templates) were considered for inspiration:
 
-[Aragon DAO](https://github.com/aragon/aragon-apps/blob/05d7692fcfb9cf5bc25a96674e09825defa2bbf3/apps/voting/contracts/Voting.sol) has a simple voting mechanism where actors can vote with their own tokens, power of their vote is linearly proportional with the actor's tokens. 
-  - [`changeSupportRequiredPct(uint64 _supportRequiredPct)`](https://github.com/aragon/aragon-apps/blob/05d7692fcfb9cf5bc25a96674e09825defa2bbf3/apps/voting/contracts/Voting.sol#L95)
-  - [`changeMinAcceptQuorumPct(uint64 _minAcceptQuorumPct)`](https://github.com/aragon/aragon-apps/blob/05d7692fcfb9cf5bc25a96674e09825defa2bbf3/apps/voting/contracts/Voting.sol#L110)
-  - [`newVote(bytes _executionScript, string _metadata)`
-- MakerDAO
-  - 
-- Aave DAO
-  - newProposal
-  - submitVoteByVoter
-  - cancelVoteByVoter
-  - tryToMoveToValidating
-  - challengeVoters
-  - resolveProposal
-  - no meta voting (will be added in the future)
-
-- [MolochDAO](https://github.com/MolochVentures/moloch)
+- [Aragon DAO](https://github.com/aragon/aragon-apps/blob/05d7692fcfb9cf5bc25a96674e09825defa2bbf3/apps/voting/contracts/Voting.sol)
+- [MolochDAO / MetaCartel](https://github.com/MolochVentures/moloch)
+- [Compound DAO](https://github.com/compound-finance/compound-protocol/blob/master/contracts/Governance/GovernorAlpha.sol)
+- [Livepeer](https://github.com/livepeer/protocol/blob/1074b62435a6272470d40dc8ab3e3d80d5c2b634/contracts/polling/PollCreator.sol)
+- [Aave DAO]() TODO: add link - code not public yet (Ernesto said code will be public next week)
 
 Features we will implement for BarnBridge DAO:
 - It can upgrade itself - A proposal can be created to self upgrade the DAO.
@@ -68,31 +57,30 @@ Configurable parameters (not constants):
 - Minimum proposal duration - a minimum time that a proposal needs to be open in order to collect the needed votes
 - Minimum grace period (optional / if needed) - a time interval where the votes can be contested by other parties. In case we delegate votes or do meta transactions, this period needs to exist to make sure no double voting happens.
 
-Key methods:
+### Key methods (WIP)
 
-- newProposal - creates a new proposal
-  - executor - the address of the contract that holds the code which will be executed when the proposal passes
-  - votingBlocksDuration - the number of blocks this proposal remains open, while waiting for the minimum number of votes
-  - challengeBlocksDuration - the number of blocks this proposal stays in challenge state, where actors can reveal double voting
+- **propose** - creates a new proposal
+  - **executor** - the address of the contract that holds the code which will be executed when the proposal passes
+  - **votingBlocksDuration** - the number of blocks this proposal remains open, while waiting for the minimum number of votes
+  - **challengeBlocksDuration** - the number of blocks this proposal stays in challenge state, where actors can reveal double voting
 
-- vote - cast a vote on an existing proposal. It can also be used to replace an existing vote.
-  - proposalID 
-  - approve - true / false
+- **vote** - cast a vote on an existing proposal. It can also be used to replace an existing vote.
+  - **proposalID** - unique identifier of the proposal
+  - **approve** - true / false
 
-- cancelVote - remove vote
-  - proposalID
+- **cancelVote** - remove one's vote
+  - **proposalID** - unique identifier of the proposal
 
-- challengeVote
-  - proposalID
-  - voters[] - list of voters that do not hold the tokens they voted with
+- **challengeVote** - use this in case double voting happened
+  - **proposalID** - unique identifier of the proposal
+  - **voters[]** - list of voters that do not hold the tokens they voted with
 
-The proposal should be a separate contract that holds the details related. This means that the `executor` contract will need to have the following properties:
+- **executeProposal** - after the proposal has gone through all necessary steps, execute it
+  - **proposalID** - unique identifier of the proposal
 
-- name() - Proposal's name
-- description() - Description of the proposal
-- execute() - The function which will be executed when the proposal is passed
+### Proposal
 
-Thus, it needs to implement this minimum interface:
+The proposal should be a separate contract that holds the related details. This means that the `executor` contract must implement this minimum interface:
 
 ```solidity
 interface IProposal {
@@ -127,7 +115,70 @@ contract ExampleProposal is IProposal {
 }
 ```
 
-<!-- The technical specification should be detailed and should describe the syntax, semantics and interface of any feature. The specs should be detailed enough to allow technical discussions and ideation on top of this.  -->
+This leaves the opportunity to expand the proposals, by just updating the frontend which pulls the information from the `executor` contract.
+
+### States
+
+- **Voting** - after a proposal was created it starts in the **Voting** state, where any token holder can vote
+- **Validating** - after the required number of votes was accrued, the **Validating** stage allows any party to report double voting by anyone by calling `challengeVote`
+- **Passed** - achieved after the **Validating** stage was successful, meaning it did not invalidate enough votes to push the proposal back to the **Voting** stage
+- **Failed** - the proposal was rejected by the token owners
+- **Expired** - the proposal did not gather enough votes before the expiration time 
+- **Executed** - a **Passed** proposal can be executed by anyone
+
+#### Flow diagram
+
+Flow diagram below. Created and updated with [asciiflow](http://asciiflow.com/).
+
+```
++----------+   Enough opposing votes  +-------------------------+  Not enough votes                +---------+
+|          |   to cancel the proposal |                         |  within the allotted time        |         |
+|  Failed  | <------------------------+         Voting          +--------------------------------> | Expired |
+|          |                          |                         |                                  |         |
++----------+                          +-+-------------------+---+                                  +---------+
+                                        |                   ^
+                                        | Enough            | Enough
+                                        | supporting        | votes are
+                                        | votes             | invalidated
+                                        | in the            | to go back
+                                        | allotted          | to Voting
+                                        | time              |
+                                        |                   |
+                                        |                   |
+                                        v                   |
+                                     +--+-------------------+---+
+                                     |                          |
+                                     |        Validating        |
+                                     |                          |
+                                     +--------------+-----------+
+                                                    |
+                                                    |
+                                                    | Proposal
+                                                    | still has
+                                                    | enough supporting
+                                                    | votes at the end
+                                                    | of the Validating stage
+                                                    |
+                                                    |
+                                              +-----+----+
+                                              |          |
+                                              |  Passed  |
+                                              |          |
+                                              +-----+----+
+                                                    |
+                                                    |
+                                                    | Proposal
+                                                    | is executed,
+                                                    | code is run
+                                                    |
+                                                    |
+                                                    v
+                                            +-------+----+
+                                            |            |
+                                            |  Executed  |
+                                            |            |
+                                            +------------+
+```
 
 ## Implementation (optional)
 
