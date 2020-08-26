@@ -70,12 +70,21 @@ Configurable parameters (not constants):
 
 Key methods:
 
-```
-newProposal
-    - executor -  the address of the contract that holds the code which will be executed when the proposal passes
-    - votingBlocksDuration - the number of blocks this proposal remains open, while waiting for the minimum number of votes
-    - challengeBlocksDuration - the number of blocks this proposal stays in challenge state, where actors can reveal double voting
-```
+- newProposal - creates a new proposal
+  - executor - the address of the contract that holds the code which will be executed when the proposal passes
+  - votingBlocksDuration - the number of blocks this proposal remains open, while waiting for the minimum number of votes
+  - challengeBlocksDuration - the number of blocks this proposal stays in challenge state, where actors can reveal double voting
+
+- vote - cast a vote on an existing proposal. It can also be used to replace an existing vote.
+  - proposalID 
+  - approve - true / false
+
+- cancelVote - remove vote
+  - proposalID
+
+- challengeVote
+  - proposalID
+  - voters[] - list of voters that do not hold the tokens they voted with
 
 The proposal should be a separate contract that holds the details related. This means that the `executor` contract will need to have the following properties:
 
