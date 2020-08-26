@@ -3,8 +3,8 @@ bbip: 1
 title: BarnBridge DAO
 torchbearer: Daniel Luca (@CleanUnicorn)
 author: Daniel Luca (@CleanUnicorn)
-discussions-to: <URL, usually the pull request>
-status: Draft
+discussions-to: https://github.com/BarnBridge/BBIP/pull/3
+status: Preview
 created: 2020-08-25
 ---
 
