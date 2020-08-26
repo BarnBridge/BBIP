@@ -44,6 +44,8 @@ Features we might implement in the future:
 - Anyone can create proposals - We need to discuss whether anyone can create proposals or only some actors. This needs to be clear right from the start; maybe only $BOND token owners can create proposal, or only the founders / investors / advisors.
 - Do we want to punish people if they don't vote?
 - Do we want to reward people if they vote?
+- Meta transactions
+- Vote delegation
 
 ## Specification
 
