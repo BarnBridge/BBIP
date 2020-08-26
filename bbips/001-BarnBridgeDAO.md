@@ -44,24 +44,81 @@ The following DAOs (or governance templates) were considered for inspiration:
 - [MolochDAO](https://github.com/MolochVentures/moloch)
 
 Features we will implement for BarnBridge DAO:
-- It can upgrade itself - a proposal can be created to self upgrade the DAO.
-- The tokens are not locked in the contract - the tokens are still in the actor's balance, they are not transferred to the DAO.
-- The proposal is an individual smart contract - the code which will be run, when the proposal is passed, is easily readable. The source code should be available on [Etherscan.io](https://etherscan.io) for anyone to read.
-- Actors can cancel their vote - cancelling the vote will remove their voting power for that proposal.
+- It can upgrade itself - A proposal can be created to self upgrade the DAO.
+- The tokens are not locked in the contract - The tokens are still in the actor's balance, they are not transferred to the DAO.
+- The proposal is an individual smart contract - The code which will be run, when the proposal is passed, is easily readable. The source code should be available on [Etherscan.io](https://etherscan.io) for anyone to read.
+- Actors can cancel their vote - Cancelling the vote will remove their voting power for that proposal.
+- Actors can change their vote - This is a combination of vote cancelling and a normal vote.
+
+Features we might implement in the future:
+- Deposit when proposal is created - Is a deposit needed when the proposal is created? Will this deposit be returned or lost in any special case?
+- Anyone can create proposals - We need to discuss whether anyone can create proposals or only some actors. This needs to be clear right from the start; maybe only $BOND token owners can create proposal, or only the founders / investors / advisors.
+- Do we want to punish people if they don't vote?
+- Do we want to reward people if they vote?
 
 ## Specification
 
-The DAO MUST implement the [EIP-2535 Diamond Standard](https://eips.ethereum.org/EIPS/eip-2535). This means that in the future more functionality can be added to the governance contract. An example of a functionality that is useful and will not change how the DAO works, but it will improve the usability, is the ability to vote using *meta transactions*. 
+The DAO MUST implement the [EIP-2535 Diamond Standard](https://eips.ethereum.org/EIPS/eip-2535). This means that in the future more functionality can be added to the governance contract. 
 
-Configurable parameters:
+An example of a functionality that can be added after the initial launch, which will improve the usability, is the ability to vote using *meta transactions*. Using meta transactions will allow users to store their tokens in a cold storage, while still being able to vote with those tokens. Another similar approach is to delegate votes to another address (hot wallet).
 
-- minimum voting threshold - a minimum absolute number (or percentage) that the proposal should have in order to pass or fail
-- minimum proposal duration - a minimum time that a proposal needs to be open in order to collect the needed votes
-- 
+Configurable parameters (not constants):
 
+- Minimum voting threshold - a minimum absolute number (or percentage) of votes that the proposal should have in order to pass or fail
+- Minimum proposal duration - a minimum time that a proposal needs to be open in order to collect the needed votes
+- Minimum grace period (optional / if needed) - a time interval where the votes can be contested by other parties. In case we delegate votes or do meta transactions, this period needs to exist to make sure no double voting happens.
 
+Key methods:
 
-The technical specification should be detailed and should describe the syntax, semantics and interface of any feature. The specs should be detailed enough to allow technical discussions and ideation on top of this. 
+```
+newProposal
+    - executor -  the address of the contract that holds the code which will be executed when the proposal passes
+    - votingBlocksDuration - the number of blocks this proposal remains open, while waiting for the minimum number of votes
+    - challengeBlocksDuration - the number of blocks this proposal stays in challenge state, where actors can reveal double voting
+```
+
+The proposal should be a separate contract that holds the details related. This means that the `executor` contract will need to have the following properties:
+
+- name() - Proposal's name
+- description() - Description of the proposal
+- execute() - The function which will be executed when the proposal is passed
+
+Thus, it needs to implement this minimum interface:
+
+```solidity
+interface IProposal {
+    // Returns the name of the proposal. This cannot be changed in the future.
+    function name() external pure returns (string memory);
+
+    // Returns a more detailed description of the proposal. This cannot be changed in the future.
+    function description() external pure returns (string memory);
+    
+    // This is executed when the proposal is passed.
+    function execute() external;
+}
+```
+
+This interface should be implemented by the contract which defines the proposal. Here is an example:
+
+```solidity
+contract ExampleProposal is IProposal {
+    event ExampleProposalExecuted();
+    
+    function name() public pure override(Proposal) returns(string memory) {
+        return 'The proposal name';
+    }
+    
+    function description() public pure override(Proposal) returns(string memory) {
+        return 'A more detailed description of the proposal';
+    }
+    
+    function execute() public override(Proposal) {
+        emit ExampleProposalExecuted();
+    }
+}
+```
+
+<!-- The technical specification should be detailed and should describe the syntax, semantics and interface of any feature. The specs should be detailed enough to allow technical discussions and ideation on top of this.  -->
 
 ## Implementation (optional)
 
@@ -71,4 +128,4 @@ This does not need to be the only implementation, but a canonical implementation
 
 ## Copyright
 
-To be decided.
+[Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
