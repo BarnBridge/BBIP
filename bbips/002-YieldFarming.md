@@ -14,7 +14,7 @@ A simple way for future users of the protocol to get access to the $BOND token b
 
 ## Abstract
 
-In the true spirit of decentralization, we needed a way to distribute $BOND tokens to future user of the protocol that couldn't get access to the Seed round.  The 
+In the true spirit of decentralization, we needed a way to distribute $BOND tokens to future user of the protocol that couldn't get access to the Seed round.  There will be a staking pool that uses the assets (DAI, USDC, & sUSD) that will be used in the first product of the protocol which is the Smart Yield Bond.  8% of the initial token supply (800,000) will be allocated to the staking pool.
 
 ## Specification
 
