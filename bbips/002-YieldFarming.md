@@ -1,0 +1,29 @@
+---
+bbip: 2
+title: Yield Farming
+torchbearer: Troy Murray (@DannyDesert)
+author: Troy Murray (@DannyDesert)
+discussions-to: https://github.com/BarnBridge/BBIP/pull/4
+status: Preview
+created: 2020-08-28
+---
+
+## Simple summary
+
+A simple way for future users of the protocol to get access to the $BOND token before the Smart Yield Bond product launches.  
+
+## Abstract
+
+In the true spirit of decentralization, we needed a way to distribute $BOND tokens to future user of the protocol that couldn't get access to the Seed round.  The 
+
+## Specification
+
+
+
+## Implementation (optional)
+
+
+
+## Copyright
+
+[Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
