@@ -18,7 +18,7 @@ In the true spirit of decentralization, we need a way to distribute $BOND tokens
 
 ## Specification
 
-Breakdown on the token distribution: (https://docs.google.com/spreadsheets/d/1AKdLHFsIujM-MS3atlrKUsLMXelIHhWQsHOQh2iFEIs/edit?usp=sharing)[https://docs.google.com/spreadsheets/d/1AKdLHFsIujM-MS3atlrKUsLMXelIHhWQsHOQh2iFEIs/edit?usp=sharing]
+Breakdown on the token distribution: https://docs.google.com/spreadsheets/d/1AKdLHFsIujM-MS3atlrKUsLMXelIHhWQsHOQh2iFEIs/edit?usp=sharing
 
 Each Epoch is a week long, we are distributing 8% of the initial supply (800,000) and the first week we distribute 50% and then ever week after the number halves (modeled it off the grandaddy of them all, Bitcoin).
 
