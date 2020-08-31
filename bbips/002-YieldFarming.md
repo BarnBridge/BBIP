@@ -18,9 +18,13 @@ In the true spirit of decentralization, we need a way to distribute $BOND tokens
 
 ## Specification
 
-Breakdown on the token distribution: https://docs.google.com/spreadsheets/d/1AKdLHFsIujM-MS3atlrKUsLMXelIHhWQsHOQh2iFEIs/edit?usp=sharing
+- Each epoch is 1 week long
+- Number of distributed tokens is equal for all epochs; each epoch emits = 800.000 / number of epochs = 33,333.33 tokens
+- It's the fairest way to distribute because the people who did not join in the beginning, can still join later and not be severely diluted
+- The dilution will be controlled by the popularity of the $BOND tokens (this is the same for Bitcoin, you earn less if more people join; but it's valued more)
+- It simplifies the model and makes it easier to understand
 
-Each Epoch is a week long, we are distributing 8% of the initial supply (800,000) and the first week we distribute 50% and then ever week after the number halves (modeled it off the grandaddy of them all, Bitcoin).
+Current breakdown: https://docs.google.com/spreadsheets/d/1AKdLHFsIujM-MS3atlrKUsLMXelIHhWQsHOQh2iFEIs/edit?usp=sharing
 
 ## Implementation (optional)
 
