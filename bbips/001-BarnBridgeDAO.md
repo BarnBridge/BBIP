@@ -59,6 +59,9 @@ Configurable parameters (not constants):
 - Minimum proposal duration - a minimum time that a proposal needs to be open in order to collect the needed votes
 - Minimum grace period (optional / if needed) - a time interval where the votes can be contested by other parties. In case we delegate votes or do meta transactions, this period needs to exist to make sure no double voting happens.
 
+Other possible parameters:
+- Maximum proposal duration - a maximum time that a proposal can be active. Depending on who will have the ability to create proposals, we might want to introduce a maximum proposal duration as an extra security layer to avoid spam.
+
 ### Key methods (WIP)
 
 - **propose** - creates a new proposal
@@ -77,7 +80,7 @@ Configurable parameters (not constants):
   - **proposalID** - unique identifier of the proposal
   - **voters[]** - list of voters that do not hold the tokens they voted with
 
-- **executeProposal** - after the proposal has gone through all necessary steps, execute it
+- **executeProposal** - after the proposal has gone through all necessary steps, execute it; since this cannont be called automatically, an external actor has to call this function when the proposal reached the `Passed` state
   - **proposalID** - unique identifier of the proposal
 
 ### Proposal
@@ -118,6 +121,8 @@ contract ExampleProposal is IProposal {
 ```
 
 This leaves the opportunity to expand the proposals, by just updating the frontend which pulls the information from the `executor` contract.
+
+The `execute()` function will be called via a `delegatecall` by the DAO contract. This gives any proposal unlimited power, including destroying the DAO.
 
 ### States
 
