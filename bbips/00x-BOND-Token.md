@@ -63,7 +63,7 @@ finance.deposit(token, amount, string reference)
 Parameters:
 - `token` - The address of the ERC-20 token. Because this is done in the contract itself, `address(this)` will represent the token address. The address can also be predicted as [described here](https://ethereum.stackexchange.com/a/761/6253).
 - `amount` - `10000000 * 10e18` - this amount MUST match the value specified when minting tokens and approving tokens.
-- `string reference` - //TODO: @DannyDesert can you provide a string? This will be visible along in the Finance transfers list.
+- `string reference` - `BarnBridge Governance Token to be distributed according to https://client.aragon.org/#/barnbridgelaunch/0x0ee6df5b2482663f28e20c5927906724024121cc/vote/0/`
 
 ### Owner
 
