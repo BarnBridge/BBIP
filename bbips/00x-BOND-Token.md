@@ -30,7 +30,7 @@ Our contract will inherit the [ERC20](https://github.com/OpenZeppelin/openzeppel
 
 The token parameters are:
 
-- `name` - BarnBridge Governance
+- `name` - BarnBridge Governance Token
 - `symbol` - BOND
 - `decimals` - 18
 
