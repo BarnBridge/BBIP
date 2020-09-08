@@ -86,7 +86,3 @@ In order to have the highest trust in the implementation, none of the original f
 The provided implementation by OpenZeppelin will be inherited and extended with the custom logic described above.
 
 Implementation available at https://github.com/BarnBridge/BarnBridge-Token.
-
-## Copyright
-
-[Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)

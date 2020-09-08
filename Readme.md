@@ -20,4 +20,6 @@ Fork and use the available template to add your proposal, create pull request.
 - **Frozen** - a BBIP that was implemented, has gone through a round of implementations, and maybe an audit (if need be) and is considered final and not changeable.
 - **Deprecated** - a BBIP that has fallen out of scope and should not be used anymore.
 
+## Copyright
 
+All proposals are created with an [Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt) or compatible.
