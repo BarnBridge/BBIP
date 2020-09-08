@@ -1,10 +1,10 @@
 ---
-bbip: <to be assigned>
+bbip: 3
 title: BOND token
 torchbearer: Daniel Luca (@CleanUnicorn)
-author: Daniel Luca (@CleanUnicorn)
-discussions-to: <URL, usually the pull request>
-status: Draft
+author: Daniel Luca (@CleanUnicorn), Troy Murray (@DannyDesert)
+discussions-to: https://github.com/BarnBridge/BBIP/pull/6
+status: Accepted
 created: 2020-09-02
 ---
 
@@ -16,7 +16,7 @@ The synopsis of the improvement proposal. It needs to be short, clear and captur
 
 ## Abstract
 
-It is a simple [ERC-20 token](https://eips.ethereum.org/EIPS/eip-20) to keep track of the $BOND token, which is a fungible asset. Any token is exactly equal to any other token, no special permissions will be available to the founding team, investors or advisors. Even more the founding team, investors and advisors will be on a vesting schedule of 1 year, meaning that they cannot use the full amount of tokens until the end of the vesting period. The vesting schedule will be described in a different BBIP (//TODO: add link when created).
+It is a simple [ERC-20 token](https://eips.ethereum.org/EIPS/eip-20) to keep track of the $BOND token, which is a fungible asset. Any token is exactly equal to any other token, no special permissions will be available to the founding team, investors or advisors. Even more the founding team, investors and advisors will be on a vesting schedule of 1 year, meaning that they cannot use the full amount of tokens until the end of the vesting period. The vesting schedule will be described in a different BBIP.
 
 All of the tokens will be generated when the contract is deployed, no new tokens will be minted later. The total number of tokens will be 10.000.000 (ten million). Those tokens will be split according to the whitepaper [distribution breakdown](https://github.com/BarnBridge/BarnBridge-Whitepaper#31-distribution). Because most of the systems do not exist at the moment, such as vesting contracts, DAO treasury, community pools, the tokens will be held by the [LaunchDAO](https://client.aragon.org/#/barnbridgelaunch/0x48fcf8dbc58fe970cbaa4c69c66fd58ec19cfbfd/). After each system is built, the LaunchDAO will send those tokens to the deployed contract, releasing control over more and more tokens, until all the tokens will be held by the proper system. This means that the trust in the system increases while the systems are built, eventually following a trustless system, where no party needs to trust the others in order to cooperate.
 
@@ -52,7 +52,7 @@ token.approve(finance, amount)
 
 Parameters:
 - `finance` - `0x3bc45731f72ecc4f41b864588d77f0852e2cf7e8`.
-- `amount` - `10000000 * 10e18`.
+- `amount` - `10000000 * 10^18`.
 
 #### Deposit tokens
 
@@ -84,6 +84,8 @@ The implementation should heavily rely on the [OpenZeppelin](https://github.com/
 In order to have the highest trust in the implementation, none of the original files should be modified. This means that the security audit should spend minimum time checking the OpenZeppelin implementation.
 
 The provided implementation by OpenZeppelin will be inherited and extended with the custom logic described above.
+
+Implementation available at https://github.com/BarnBridge/BarnBridge-Token.
 
 ## Copyright
 
