@@ -64,7 +64,7 @@ Other possible parameters:
 
 ### Key methods (WIP)
 
-- **propose** - creates a new proposal
+- **newProposal** - creates a new proposal
   - **executor** - the address of the contract that holds the code which will be executed when the proposal passes
   - **votingBlocksDuration** - the number of blocks this proposal remains open, while waiting for the minimum number of votes
   - **challengeBlocksDuration** - the number of blocks this proposal stays in challenge state, where actors can reveal double voting
