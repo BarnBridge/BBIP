@@ -106,15 +106,15 @@ This interface should be implemented by the contract which defines the proposal.
 contract ExampleProposal is IProposal {
     event ExampleProposalExecuted();
     
-    function name() public pure override(Proposal) returns(string memory) {
+    function name() public pure override(IProposal) returns(string memory) {
         return 'The proposal name';
     }
     
-    function description() public pure override(Proposal) returns(string memory) {
+    function description() public pure override(IProposal) returns(string memory) {
         return 'A more detailed description of the proposal';
     }
     
-    function execute() public override(Proposal) {
+    function execute() public override(IProposal) {
         emit ExampleProposalExecuted();
     }
 }
